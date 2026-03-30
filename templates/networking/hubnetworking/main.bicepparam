@@ -173,7 +173,7 @@ param hubNetworks = [
       vpnMode: 'activeActiveBgp'
       vpnType: 'RouteBased'
       asn: 65515
-      domainNameLabel: ['vgw-alz-thecloudforge-${parLocations[0]}']
+      domainNameLabel: ['vgw-alz-thecloudforge-${parLocations[1]}']
     }
     expressRouteGatewaySettings: {
       deployExpressRouteGateway: false
