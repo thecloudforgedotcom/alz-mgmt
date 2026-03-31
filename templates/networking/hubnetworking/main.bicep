@@ -593,46 +593,46 @@ module resBastionNsg 'br/public:avm/res/network/network-security-group:0.5.2' = 
 //=====================
 // Hybrid Connectivity
 //=====================
-//module resVpnGateway 'br/public:avm/res/network/virtual-network-gateway:0.10.1' = [
-//  for (hub, i) in hubNetworks: if (hub.vpnGatewaySettings.deployVpnGateway) {
-//    name: 'vpnGateway-${uniqueString(parHubNetworkingResourceGroupNamePrefix,hub.name,hub.location)}'
-//    scope: resourceGroup(hubResourceGroupNames[i])
-//    dependsOn: [
-//      resHubVirtualNetwork[i]
-//      modHubNetworkingResourceGroups
-//    ]
-//    params: {
-//      name: hub.?vpnGatewaySettings.?name ?? 'vgw-alz-${hub.location}'
-//      clusterSettings: {
-//        clusterMode: any(hub.?vpnGatewaySettings.?vpnMode)
-//        asn: hub.?vpnGatewaySettings.?asn ?? 65515
-//        customBgpIpAddresses: (hub.?vpnGatewaySettings.?vpnMode == 'activePassiveBgp' || hub.?vpnGatewaySettings.?vpnMode == 'activeActiveBgp')
-//          ? (hub.?vpnGatewaySettings.?customBgpIpAddresses)
-//          : null
-//      }
-//      location: hub.location
-//      gatewayType: 'Vpn'
-//      vpnType: hub.?vpnGatewaySettings.?vpnType ?? 'RouteBased'
-//      skuName: hub.?vpnGatewaySettings.?skuName ?? 'VpnGw1AZ'
-//      enableBgpRouteTranslationForNat: hub.?vpnGatewaySettings.?enableBgpRouteTranslationForNat ?? false
-//      enableDnsForwarding: hub.?vpnGatewaySettings.?enableDnsForwarding ?? false
-//      vpnGatewayGeneration: hub.?vpnGatewaySettings.?vpnGatewayGeneration ?? 'None'
-//      virtualNetworkResourceId: resHubVirtualNetwork[i].outputs.resourceId
-//      domainNameLabel: ['vgw-alz-thecloudforge-${hub.location}-${uniqueString(parHubNetworkingResourceGroupNamePrefix, hub.name, hub.location, 'vpn')}']
+module resVpnGateway 'br/public:avm/res/network/virtual-network-gateway:0.10.1' = [
+  for (hub, i) in hubNetworks: if (hub.vpnGatewaySettings.deployVpnGateway) {
+    name: 'vpnGateway-${uniqueString(parHubNetworkingResourceGroupNamePrefix,hub.name,hub.location)}'
+    scope: resourceGroup(hubResourceGroupNames[i])
+    dependsOn: [
+      resHubVirtualNetwork[i]
+      modHubNetworkingResourceGroups
+    ]
+    params: {
+      name: hub.?vpnGatewaySettings.?name ?? 'vgw-alz-thecloudforge-${hub.location}'
+      clusterSettings: {
+        clusterMode: any(hub.?vpnGatewaySettings.?vpnMode)
+        asn: hub.?vpnGatewaySettings.?asn ?? 65515
+        customBgpIpAddresses: (hub.?vpnGatewaySettings.?vpnMode == 'activePassiveBgp' || hub.?vpnGatewaySettings.?vpnMode == 'activeActiveBgp')
+          ? (hub.?vpnGatewaySettings.?customBgpIpAddresses)
+          : null
+      }
+      location: hub.location
+      gatewayType: 'Vpn'
+      vpnType: hub.?vpnGatewaySettings.?vpnType ?? 'RouteBased'
+      skuName: hub.?vpnGatewaySettings.?skuName ?? 'VpnGw1AZ'
+      enableBgpRouteTranslationForNat: hub.?vpnGatewaySettings.?enableBgpRouteTranslationForNat ?? false
+      enableDnsForwarding: hub.?vpnGatewaySettings.?enableDnsForwarding ?? false
+      vpnGatewayGeneration: hub.?vpnGatewaySettings.?vpnGatewayGeneration ?? 'None'
+      virtualNetworkResourceId: resHubVirtualNetwork[i].outputs.resourceId
+      domainNameLabel: ['vgw-alz-thecloudforge-${hub.location}-${uniqueString(parHubNetworkingResourceGroupNamePrefix, hub.name, hub.location, 'vpn')}']
 //      domainNameLabel: !empty(hub.?vpnGatewaySettings.?domainNameLabel ?? [])
 //        ? hub.?vpnGatewaySettings.?domainNameLabel
 //        : [
 //            'vgw-alz-${hub.location}-${uniqueString(parHubNetworkingResourceGroupNamePrefix, hub.name, hub.location, 'vpn')}'
 //          ]
-//      publicIpAvailabilityZones: hub.?vpnGatewaySettings.?skuName != 'Basic'
-//        ? hub.?vpnGatewaySettings.?publicIpZones ?? publicIpRecommendedZones[i]
-//        : []
-//      lock: hub.?vpnGatewaySettings.?lock ?? parGlobalResourceLock
-//      tags: hub.?vpnGatewaySettings.?tags ?? parTags
-//      enableTelemetry: parEnableTelemetry
-//    }
-//  }
-//]
+      publicIpAvailabilityZones: hub.?vpnGatewaySettings.?skuName != 'Basic'
+        ? hub.?vpnGatewaySettings.?publicIpZones ?? publicIpRecommendedZones[i]
+        : []
+      lock: hub.?vpnGatewaySettings.?lock ?? parGlobalResourceLock
+      tags: hub.?vpnGatewaySettings.?tags ?? parTags
+      enableTelemetry: parEnableTelemetry
+    }
+  }
+]
 
 module resExpressRouteGateway 'br/public:avm/res/network/virtual-network-gateway:0.10.1' = [
   for (hub, i) in hubNetworks: if (hub.?expressRouteGatewaySettings.?deployExpressRouteGateway ?? false) {
