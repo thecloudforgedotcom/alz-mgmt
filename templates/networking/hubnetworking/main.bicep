@@ -618,11 +618,12 @@ module resVpnGateway 'br/public:avm/res/network/virtual-network-gateway:0.10.1' 
       enableDnsForwarding: hub.?vpnGatewaySettings.?enableDnsForwarding ?? false
       vpnGatewayGeneration: hub.?vpnGatewaySettings.?vpnGatewayGeneration ?? 'None'
       virtualNetworkResourceId: resHubVirtualNetwork[i].outputs.resourceId
-      domainNameLabel: !empty(hub.?vpnGatewaySettings.?domainNameLabel ?? [])
-        ? hub.?vpnGatewaySettings.?domainNameLabel
-        : [
-            'vgw-alz-${hub.location}-${uniqueString(parHubNetworkingResourceGroupNamePrefix, hub.name, hub.location, 'vpn')}'
-          ]
+      domainNameLabel: ['vgw-alz-thecloudforge-${hub.location}-${uniqueString(parHubNetworkingResourceGroupNamePrefix, hub.name, hub.location, 'vpn')}']
+//      domainNameLabel: !empty(hub.?vpnGatewaySettings.?domainNameLabel ?? [])
+//        ? hub.?vpnGatewaySettings.?domainNameLabel
+//        : [
+//            'vgw-alz-${hub.location}-${uniqueString(parHubNetworkingResourceGroupNamePrefix, hub.name, hub.location, 'vpn')}'
+//          ]
       publicIpAvailabilityZones: hub.?vpnGatewaySettings.?skuName != 'Basic'
         ? hub.?vpnGatewaySettings.?publicIpZones ?? publicIpRecommendedZones[i]
         : []
